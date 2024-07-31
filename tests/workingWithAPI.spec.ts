@@ -13,11 +13,8 @@ test.beforeEach(async({page}) => {
   })
 
   await page.goto('https://conduit.bondaracademy.com/')
-  await page.getByText('Sign in').click()
-  await page.getByRole('textbox', {name: 'Email'}).fill('terem222@ukr.net')
-  await page.getByRole('textbox', {name: 'Password'}).fill('conduit')
-  await page.getByRole('button').click()
 })
+
 
 test('has title', async ({ page }) => {
     // MOCK CONFIGURATION2: intercept the REST response, modify the JSON body and then return it to the client.
