@@ -44,3 +44,6 @@ Thumbs.db
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Folder to save information about authenticated browser
+.auth/
