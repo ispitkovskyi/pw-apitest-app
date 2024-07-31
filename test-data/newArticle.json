@@ -1,0 +1,8 @@
+{
+    "article": {
+        "title": "This is a test title",
+        "description": "This is a test description",
+        "body": "This is a test body",
+        "tagList": []
+    }
+}

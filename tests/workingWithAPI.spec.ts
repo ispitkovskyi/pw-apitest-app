@@ -1,5 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 import tags from '../test-data/tags.json'
+import newArticle from '../test-data/newArticle.json'
 
 test.beforeEach(async({page}) => {
 
@@ -47,11 +48,13 @@ test('delete article', async({page, request}) => {
    })
    const responseBody = await response.json()
    const accessToken = responseBody.user.token
+   const newArticleJson = JSON.parse(JSON.stringify(newArticle))
 
    const articleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
-    data: {
-      "article":{"title":"This is a test title","description":"This is a test description","body":"This is a test body","tagList":[]}
-    },
+    // data: {
+    //   "article":{"title":"This is a test title","description":"This is a test description","body":"This is a test body","tagList":[]}
+    // },
+    data: newArticleJson,
     headers: {
       Authorization: `Token ${accessToken}`
     }
