@@ -14,5 +14,6 @@ setup('authentication', async ({page}) => {
     // to make sure that the authentication has passed
     await page.waitForResponse('https://conduit-api.bondaracademy.com/api/tags') 
 
+    // Saves authenticated state of browser into a file
     await page.context().storageState({path: authFile})
 })
