@@ -29,6 +29,11 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    /* This will take value of ACCESS_TOKEN env var and automatically add it as Authorization header to EACH REST REQUEST*/ 
+    extraHTTPHeaders: {
+      'Authorization': `Token ${process.env['ACCESS_TOKEN']}`
+    }
   },
 
   /* Configure projects for major browsers */

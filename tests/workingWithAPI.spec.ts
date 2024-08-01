@@ -38,24 +38,26 @@ test('has title', async ({ page }) => {
 });
 
 test('delete article', async({page, request}) => {
-   const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-    data: {
-      "user":{"email":"terem222@ukr.net","password":"conduit"}
-    }
-   })
-   const responseBody = await response.json()
-   const accessToken = responseBody.user.token
    const newArticleJson = JSON.parse(JSON.stringify(newArticle))
 
-   const articleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
-    /* data: {
-       "article":{"title":"This is a test title","description":"This is a test description","body":"This is a test body","tagList":[]}
-     },*/
+/*    const articleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
     data: newArticleJson,
     headers: {
       Authorization: `Token ${accessToken}`
     }
-   })
+   }) */
+
+    /**
+    * The Authorization token is added automatically
+    * it is obtained inside setup method in auth.setup.ts specfile and saved to process.env[ACCESS_TOKEN]
+    * the 'Use' configuration inside 'playwright.config.ts' is updated to automatically add this token to EACH request
+    */
+      const articleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
+        //  data: {
+        //    "article":{"title":"This is a test title","description":"This is a test description","body":"This is a test body","tagList":[]}
+        //  },
+        data: newArticleJson,  
+      })
 
    await expect(articleResponse.status()).toEqual(201)
 
@@ -85,19 +87,18 @@ test('intercept browser api response', async({page, request}) => {
 
   await expect(page.locator('app-article-list h1').first()).toContainText('Playwright is awesome')
 
-  const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-    data: {
-      "user":{"email":"terem222@ukr.net","password":"conduit"}
-    }
-   })
-   const responseBody = await response.json()
-   const accessToken = responseBody.user.token
-
-   const deleteResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugId}`, {
+/*    const deleteResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugId}`, {
     headers: {
       Authorization: `Token ${accessToken}`
     }
-   })
+   }) */
+
+   /**
+    * The Authorization token is added automatically
+    * the token is obtained inside setup method in auth.setup.ts and saved to process.env[ACCESS_TOKEN]
+    * the 'Use' configuration inside 'playwright.config.ts' is updated to automatically add this token to EACH request
+    */
+   const deleteResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugId}`)
 
    expect(deleteResponse.status()).toEqual(204)
 })
