@@ -5,6 +5,7 @@ import newArticle from '../test-data/newArticle.json'
 test.beforeEach(async({page}) => {
 
   // MOCK CONFIGURATION1: request interception and substitution by different json
+  // NOTE: You can use wildcards in the URL (*/**/...), which means that we want to match ANY PATTERNS when we call API endpoint
   await page.route('*/**/api/tags', async route => {  // 'route' is just a random name of a callback-function
 
     await route.fulfill({
@@ -52,7 +53,7 @@ test('delete article', async({page, request}) => {
     * it is obtained inside setup method in auth.setup.ts specfile and saved to process.env[ACCESS_TOKEN]
     * the 'Use' configuration inside 'playwright.config.ts' is updated to automatically add this token to EACH request
     */
-      const articleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
+    const articleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
         //  data: {
         //    "article":{"title":"This is a test title","description":"This is a test description","body":"This is a test body","tagList":[]}
         //  },

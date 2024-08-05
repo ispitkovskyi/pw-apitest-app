@@ -38,24 +38,43 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    {name: 'setup', testMatch: 'auth.setup.ts'},
     {
-      name: 'chromium',
+      name: 'setup', 
+      testMatch: 'auth.setup.ts'
+    },
+    {
+      name: 'articleSetup',   // Precondition setup project
+      testMatch: 'newArticle.setup.ts',
+      dependencies: ['setup'],
+      teardown: 'articleCleanup'   // Reference to a respective teardown cleanup project
+    },
+    {
+      name: 'regression',
       use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' },
       dependencies: ['setup']
     },
-
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'], storageState: '.auth/user.json' },
-      dependencies: ['setup']
+      name: 'likecounter',
+      testMatch: 'likesCounter.spec.ts',
+      use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' },
+      dependencies: ['articleSetup']
+    },
+    {
+      name: 'articleCleanup',
+      testMatch: 'newArticleCleanup.setup.ts'
     },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'], storageState: '.auth/user.json' },
-      dependencies: ['setup']
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'], storageState: '.auth/user.json' },
+    //   dependencies: ['setup']
+    // },
+
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'], storageState: '.auth/user.json' },
+    //   dependencies: ['setup']
+    // },
 
     /* Test against mobile viewports. */
     // {
